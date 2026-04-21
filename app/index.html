@@ -1,1 +1,535 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Email Signature Generator</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Confetti Animation -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- APP BUTTON ICONS -->
+    <script>
+        function removeFromLinks(rel) {
+            for (link of document.head.getElementsByTagName("link")) {
+                if (link.rel == rel) {
+                    document.head.removeChild(link);
+                }
+            };
+        }
+        function createNewFavicon(rel, img) {
+            var newFavicon = document.createElement("link");
+            newFavicon.type = "image/png";
+            newFavicon.rel = rel;
+            newFavicon.href = img;
+            var firstHeadElement = document.head.firstChild;
+            document.head.insertBefore(newFavicon, firstHeadElement);
+        }
+        removeFromLinks("icon");
+        removeFromLinks("shortcut icon");
+        removeFromLinks("apple-touch-icon");
+        createNewFavicon("icon", "https://bucket.mlcdn.com/a/3336/3336910/images/c621de00cfd893980e7bdda038a074dc64d359ad.png");
+        createNewFavicon("shortcut icon", "https://bucket.mlcdn.com/a/3336/3336910/images/c621de00cfd893980e7bdda038a074dc64d359ad.png");
+        createNewFavicon("apple-touch-icon", "https://bucket.mlcdn.com/a/3336/3336910/images/c621de00cfd893980e7bdda038a074dc64d359ad.png");
+    </script>
+</head>
+<body class="antialiased">
+
+    <!-- Top Menu Bar -->
+    <div class="top-menu-bar">
+        <div class="top-menu-content">
+            <div class="logo-container">
+                <img id="appLogo" src="https://bucket.mlcdn.com/a/3336/3336910/images/1920a03bcdf7c55ebbde3f03505064a6c6279a59.png" alt="Signature Logo">
+                <span id="appBrandNameDisplay" class="hidden sm:inline">Easy Signature</span>
+            </div>
+            
+            <div class="top-menu-actions">
+                <div class="fab" id="viewSavedSignaturesBtn" title="View Saved Signatures"><i class="fas fa-bookmark"></i></div>
+                <div class="fab" id="helpCenterBtn" title="Help Center"><i class="fa fa-info-circle"></i></div>
+
+                <!-- Home Icon -->
+                <div class="fab" title="Hompage" onclick="window.open('https://bebell-digital-solutions.github.io/easylistings-agency', '_self')"><i class="fa fa-home"></i></div> 
+
+                <!-- Translation Icon -->
+                <div class="fab" id="langToggleBtn" title="Translate to Spanish 🇪🇸">
+                    <i data-lucide="languages" class="w-5 h-5"></i>
+                </div>                
+
+                <div class="fab" id="darkModeToggle" title="Change Theme"><i class="fas fa-moon"></i></div>
+                <button id="saveSignatureBtn" class="btn-primary ml-2 hidden sm:block">Save Signature</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto p-4 md:p-8" style="max-width: 1200px;">
+        <header class="text-center mb-8">
+            <img src="https://cdn.shopify.com/s/files/1/0242/0175/6777/files/social-banner-easy-signature.gif?v=1776669683" alt="Easy Signature Banner" class="mx-auto mb-4" style="max-width: 300px; height: auto;">
+            <h1 class="text-4xl font-bold" style="color: var(--primary-color);">Email Signature Generator</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-2">Create your professional email signature in minutes.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Left Column: Form Inputs -->
+            <div id="form-container">
+                <form id="signatureForm" class="space-y-6">
+                    
+                    <!-- Personal Info -->
+                    <div class="card">
+                        <h2 class="text-xl font-semibold mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">Personal Information</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" id="fullName" class="form-input" placeholder="E.g., John Doe" required>
+                            </div>
+                            <div>
+                                <label for="jobTitle" class="form-label">Job Title</label>
+                                <input type="text" id="jobTitle" class="form-input" placeholder="E.g., Marketing Manager">
+                            </div>
+                             <div>
+                                <label for="department" class="form-label">Department</label>
+                                <input type="text" id="department" class="form-input" placeholder="E.g., Sales">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Company Details -->
+                    <div class="card">
+                        <h2 class="text-xl font-semibold mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">Company Details</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="companyName" class="form-label">Company Name</label>
+                                <input type="text" id="companyName" class="form-input" placeholder="E.g., Innovate Corp">
+                            </div>
+                            <div>
+                                <label for="website" class="form-label">Website URL</label>
+                                <input type="url" id="website" class="form-input" placeholder="https://example.com">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea id="address" class="form-input h-24" placeholder="123 Innovation Street, Tech City"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="card">
+                         <h2 class="text-xl font-semibold mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">Contact Information</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" class="form-input" placeholder="john.doe@example.com" required>
+                            </div>
+                            <div>
+                                <label for="mainPhone" class="form-label">Main Phone</label>
+                                <input type="tel" id="mainPhone" class="form-input" placeholder="+1 (555) 123-4567">
+                            </div>
+                            <div>
+                                <label for="mobilePhone" class="form-label">Mobile Phone</label>
+                                <input type="tel" id="mobilePhone" class="form-input" placeholder="+1 (555) 987-6543">
+                            </div>
+                            <div>
+                                <label for="directPhone" class="form-label">Direct Phone</label>
+                                <input type="tel" id="directPhone" class="form-input" placeholder="+1 (555) 555-5555">
+                            </div>
+                             <div>
+                                <label for="faxNumber" class="form-label">Fax Number</label>
+                                <input type="tel" id="faxNumber" class="form-input" placeholder="+1 (555) 111-2222">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div class="card">
+                        <h2 class="text-xl font-semibold mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">Social Media & Other Links (optional)</h2>
+                        <div class="grid grid-cols-1 gap-4">
+                             <input type="url" id="linkedin" class="form-input" placeholder="LinkedIn URL">
+                             <input type="url" id="twitter" class="form-input" placeholder="Twitter URL">
+                             <input type="url" id="instagram" class="form-input" placeholder="Instagram URL">
+                             <input type="url" id="facebook" class="form-input" placeholder="Facebook URL">
+                             <input type="url" id="youtube" class="form-input" placeholder="YouTube URL">
+                             <input type="url" id="pinterest" class="form-input" placeholder="Pinterest URL">
+                             <input type="url" id="tiktok" class="form-input" placeholder="TikTok URL">
+                             <input type="url" id="snapchat" class="form-input" placeholder="Snapchat URL">
+                             <input type="url" id="reddit" class="form-input" placeholder="Reddit URL">
+                             <input type="url" id="tumblr" class="form-input" placeholder="Tumblr URL">
+                             <input type="url" id="vimeo" class="form-input" placeholder="Vimeo URL">
+                             <input type="url" id="threads" class="form-input" placeholder="Threads URL">
+                             <input type="text" id="skype" class="form-input" placeholder="Skype Username">
+                             <input type="url" id="whatsapp" class="form-input" placeholder="WhatsApp URL (e.g., wa.me/1..)">
+                             <input type="url" id="telegram" class="form-input" placeholder="Telegram URL (e.g., t.me/...)">
+                             <input type="url" id="googlemaps" class="form-input" placeholder="Google Maps URL">
+                        </div>
+                    </div>
+
+                    <!-- Customization -->
+                    <div class="card">
+                        <h2 class="text-xl font-semibold mb-4 border-b pb-2 border-gray-200 dark:border-gray-600">Customization</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Left side for buttons -->
+                            <div class="space-y-6">
+                                <div>
+                                    <label for="logoUpload" class="form-label mb-2 block">Logo / Profile Picture</label>
+                                    <input type="file" id="logoUpload" accept="image/*" class="hidden">
+                                    <label for="logoUpload" class="btn-primary w-full md:w-auto block text-center">Upload Image</label>
+                                    <div id="logoPreview" class="mt-3"></div>
+                                </div>
+                                 <div>
+                                    <label id="labelAddBanner" class="form-label mb-2 block">Add Banner Image</label>
+                                    <input type="file" id="bannerUpload" accept="image/*" class="hidden">
+                                    <label for="bannerUpload" class="btn-primary w-full md:w-auto block text-center">Upload Banner</label>
+                                    <div id="bannerPreview" class="mt-3 mb-4"></div>
+                                    
+                                    <label id="labelBannerLink" class="form-label mb-2 block text-sm">Banner Link (Optional)</label>
+                                    <input type="url" id="bannerLink" class="form-input text-sm" placeholder="e.g., https://your-booking-link.com">
+                                </div>
+                            </div>
+                             <!-- Right side for selectors -->
+                            <div class="space-y-6">
+                                <div>
+                                    <label for="brandColor" class="form-label mb-2 block">Brand Color</label>
+                                    <input type="color" id="brandColor" value="#DF1783">
+                                </div>
+                                <div>
+                                    <label for="socialIconShape" class="form-label mb-2 block">Image Shape</label>
+                                     <select id="socialIconShape" class="form-select">
+                                         <option value="round">Round</option>
+                                         <option value="rounded">Rounded Square</option>
+                                         <option value="square">Square</option>
+                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Right Column: Preview & Code -->
+            <div>
+                <div class="sticky top-8">
+                    <!-- Live Preview -->
+                    <div class="card">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold">Preview</h2>
+                        </div>
+                        <div id="signaturePreview" class="min-h-[200px]" style="background-color: transparent;">
+                            <!-- The signature will be displayed here -->
+                        </div>
+                        <div class="pt-4 mt-4 border-t border-gray-200 dark:border-gray-600">
+                              <h3 class="text-sm font-semibold mb-3 text-gray-500 dark:text-gray-400">Copy to your favorite email client:</h3>
+                              <div id="copyPillContainer" class="flex flex-wrap gap-2">
+                                  <button class="copy-pill-btn">Gmail</button>
+                                  <button class="copy-pill-btn">Yahoo Mail</button>
+                                  <button class="copy-pill-btn">AOL Mail</button>
+                                  <button class="copy-pill-btn">Outlook</button>
+                                  <button class="copy-pill-btn">Apple Mail</button>
+                              </div>
+                        </div>
+                    </div>
+
+                    <!-- Generated HTML -->
+                    <div class="card">
+                        <h2 class="text-xl font-semibold mb-4">Generated HTML</h2>
+                        <div class="relative">
+                            <pre class="bg-gray-900 text-white p-4 rounded-lg text-xs overflow-x-auto whitespace-pre-wrap break-words"><code><span id="generatedHTML"><!-- Your HTML will appear here --></span></code></pre>
+                            <button id="copyHtmlButton" class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-1 px-2 rounded">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Sliding Panel -->
+    <div id="overlay"></div>
+    <div id="savedSignaturesPanel">
+        <div class="panel-header">
+            <h2 class="text-xl font-semibold">Saved Signatures</h2>
+            <button id="closePanelBtn" class="fab"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="signatureList">
+            <!-- Saved signatures will be listed here -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="social-links mb-20 mt-8">
+            <a href="https://bebell-digital-solutions.github.io/checklist-creator/english" class="social-link" rel="noopener">
+                <span>☑️</span> Checklist Creator
+            </a>
+            <a href="https://bebell-digital-solutions.github.io/tasks-manager/en-v03" class="social-link" rel="noopener">
+                <span>🎯</span> Task Manager
+            </a>
+            <a href="https://bebell-digital-solutions.github.io/bookmark-page/en-v03" class="social-link" rel="noopener">
+                <span>🔗</span> Link Manager
+            </a>
+            <a href="https://bebell-digital-solutions.github.io/magic-toolbox-database/en-v03" class="social-link" rel="noopener">
+                <span>🧰</span> Magic Toolbox
+            </a>
+            <a href="mailto:support@bebelldigitalsolutions.com" class="social-link"  rel="noopener">
+                <span>📨</span> Tech Support
+            </a>
+        </div>
+    </footer>
+
+    <!-- Authentication Overlay -->
+    <div id="authOverlay" class="fixed inset-0 z-[2000] flex items-center justify-center p-4 transition-opacity duration-300" style="background-color: #f1f0fb;">
+        <div class="card w-full max-w-md relative overflow-hidden" style="padding: 2.5rem; background-color: var(--card-bg);">
+            <!-- Login Form -->
+            <div id="loginFormContainer" class="relative z-10 transition-transform duration-300">
+                <div class="text-center mb-6">
+                    <img src="https://bucket.mlcdn.com/a/3336/3336910/images/1920a03bcdf7c55ebbde3f03505064a6c6279a59.png" alt="Logo" class="w-16 h-16 mx-auto rounded-xl mb-4 transition-transform duration-300 hover:scale-105 hover:-rotate-3 cursor-pointer">
+                    <h2 class="text-2xl font-bold" style="color: var(--primary-color);">Welcome Back</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Sign in to your account</p>
+                </div>
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <label class="form-label text-sm">Email</label>
+                        <input type="email" id="loginEmail" class="form-input mt-1" required>
+                    </div>
+                    <div>
+                        <label class="form-label text-sm">Password</label>
+                        <input type="password" id="loginPassword" class="form-input mt-1" required>
+                    </div>
+                    <button type="submit" class="btn-primary w-full mt-6">Login</button>
+                </form>
+                <p class="text-center text-sm mt-6 text-gray-600 dark:text-gray-400">
+                    Don't have an account? <a href="#" id="showRegisterBtn" style="color: var(--primary-color);" class="font-semibold">Register</a>
+                </p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerFormContainer" class="relative z-10 hidden transition-transform duration-300">
+                <div class="text-center mb-6">
+                    <img src="https://bucket.mlcdn.com/a/3336/3336910/images/1920a03bcdf7c55ebbde3f03505064a6c6279a59.png" alt="Logo" class="w-16 h-16 mx-auto rounded-xl mb-4 transition-transform duration-300 hover:scale-105 hover:-rotate-3 cursor-pointer">                    
+                    <h2 class="text-2xl font-bold" style="color: var(--primary-color);">Create Account</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Join Easy Signature today</p>
+                </div>
+                <form id="registerForm" class="space-y-4">
+                    <div>
+                        <label class="form-label text-sm">Full Name</label>
+                        <input type="text" id="regName" class="form-input mt-1" required>
+                    </div>
+                    <div>
+                        <label class="form-label text-sm">Email</label>
+                        <input type="email" id="regEmail" class="form-input mt-1" required>
+                    </div>
+                    <div>
+                        <label class="form-label text-sm">Password</label>
+                        <input type="password" id="regPassword" class="form-input mt-1" required>
+                    </div>
+                    <div>
+                        <label class="form-label text-sm">WhatsApp Number</label>
+                        <input type="tel" id="regWhatsapp" class="form-input mt-1" required>
+                    </div>
+
+                    <div>
+                        <label id="labelRegLanguage" class="form-label text-sm">Preferred Language</label>
+                        <select id="regLanguage" class="form-select mt-1" required>
+                            <option value="en">English</option>
+                            <option value="es">Español / Spanish</option>
+                        </select>
+                    </div>
+
+                    <div class="p-4 rounded-lg mt-2" style="background-color: #dcd9ff; border: 1px solid #c8c4f0;">
+                        <label class="text-sm font-semibold mb-1 block" style="color: #4a5568;">Where did you hear from us?</label>
+                        <select id="regSource" class="form-select mt-1" style="background-color: #fff; color: #4a5568; border-color: #e2e8f0;" required>
+                            <option value="">Select an option</option>
+                            <option value="Google Search">Google Search</option>
+                            <option value="Social Media">Social Media</option>
+                            <option value="Friend/Colleague">Friend / Colleague</option>
+                            <option value="Advertisement">Advertisement</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary w-full mt-6">Register</button>
+                </form>
+                <p class="text-center text-sm mt-6 text-gray-600 dark:text-gray-400">
+                    Already have an account? <a href="#" id="showLoginBtn" style="color: var(--primary-color);" class="font-semibold">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="fixed inset-0 z-[2500] bg-gray-900/50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="card w-full max-w-md relative overflow-hidden shadow-2xl">
+            <button id="closeUpgradeModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"><i class="fas fa-times"></i></button>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h2 id="upgradeTitle" class="text-2xl font-bold" style="color: var(--primary-color);">Upgrade Your Plan</h2>
+                <p id="upgradeDesc" class="text-sm text-gray-500 dark:text-gray-400 mt-2">You've reached the signature limit for your current plan. Upgrade to unlock more!</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label id="upgradeSelectLabel" class="form-label text-sm">Select a Plan</label>
+                    <select id="upgradePlanSelect" class="form-select mt-1">
+                        <option value="Start-up" id="planStartup">Start-up Plan (Up to 5 signatures)</option>
+                        <option value="Business" id="planBusiness">Business Plan (Up to 50 signatures)</option>
+                        <option value="Agency" id="planAgency">Agency Plan (Unlimited)</option>
+                    </select>
+                </div>
+                <button id="checkoutBtn" class="btn-primary w-full mt-6">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Success Modal -->
+    <div id="regSuccessModal" class="fixed inset-0 z-[3500] bg-gray-900/60 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300 opacity-0">
+        <div class="card w-full max-w-sm relative overflow-hidden shadow-2xl text-center transform transition-all duration-500 scale-50 opacity-0" id="regSuccessCard" style="padding: 2.5rem;">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl animate-bounce">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 id="successTitle" class="text-3xl font-bold mb-2" style="color: var(--primary-color);">Congratulations!</h2>
+            <p id="successDesc" class="text-gray-600 dark:text-gray-300 mb-6 font-medium">Enjoy your 1st email signature on us</p>
+            <button id="successContinueBtn" class="btn-primary w-full">Continue to Login</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+
+    <!-- BACK TO TOP Widget -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var backToTopButton = document.createElement("div");
+            backToTopButton.id = "back-to-top";
+            backToTopButton.style.position = "fixed";
+            backToTopButton.style.bottom = "20px";
+            backToTopButton.style.right = "20px";
+            backToTopButton.style.display = "none";
+            backToTopButton.style.cursor = "pointer";
+            backToTopButton.style.zIndex = "1000";
+            var buttonImage = document.createElement("img");
+            buttonImage.src = "https://bucket.mlcdn.com/a/3336/3336910/images/c3d299c889c6bcd6ab3517ae184a18db06dbe7cd.png";
+            buttonImage.alt = "botón volver al tope de la página";
+            buttonImage.style.width = "40px";
+            buttonImage.style.height = "40px";
+            backToTopButton.appendChild(buttonImage);
+            document.body.appendChild(backToTopButton);
+            window.addEventListener("scroll", function () {
+                if (document.documentElement.scrollTop > 20 || document.body.scrollTop > 20) {
+                    backToTopButton.style.display = "block";
+                } else {
+                    backToTopButton.style.display = "none";
+                }
+            });
+            backToTopButton.addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+        });
+    </script>
+
+    <!-- Page Loading Effect -->
+    <style>
+        .page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .progress {
+            width: 71.6px;
+            height: 71.6px;
+            background: linear-gradient(#8b84f5 0 0) bottom/100% 0% no-repeat #dbdcef;
+            -webkit-mask: 
+                radial-gradient(circle at 60% 65%, #000 62%, #0000 65%) top left/50% 50%, 
+                radial-gradient(circle at 40% 65%, #000 62%, #0000 65%) top right/50% 50%, 
+                linear-gradient(to bottom left, #000 42%, #0000 43%) bottom left/50% 50%, 
+                linear-gradient(to bottom right, #000 42%, #0000 43%) bottom right/50% 50%;
+            mask: 
+                radial-gradient(circle at 60% 65%, #000 62%, #0000 65%) top left/50% 50%, 
+                radial-gradient(circle at 40% 65%, #000 62%, #0000 65%) top right/50% 50%, 
+                linear-gradient(to bottom left, #000 42%, #0000 43%) bottom left/50% 50%, 
+                linear-gradient(to bottom right, #000 42%, #0000 43%) bottom right/50% 50%;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            animation: progress-ofy9at 2.8s infinite linear;
+        }
+        @keyframes progress-ofy9at {
+            90%, 100% { background-size: 100% 100%; }
+        }
+        .page-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .progress {
+                animation: none;
+                background-size: 100% 100% !important;
+            }
+        }
+    </style>
+    <noscript>
+        <style>.page-loader { display: none !important; }</style>
+    </noscript>
+    <script>
+        const loader = document.createElement('div');
+        loader.className = 'page-loader';
+        loader.setAttribute('aria-busy', 'true');
+        loader.setAttribute('aria-label', 'Loading page');
+        loader.innerHTML = '<div class="progress" role="status"></div>';
+        document.body.appendChild(loader);
+        const loadTimeout = setTimeout(() => {
+            hideLoader();
+        }, 5000);
+        window.addEventListener('load', function() {
+            clearTimeout(loadTimeout);
+            hideLoader();
+        });
+        function hideLoader() {
+            loader.setAttribute('aria-busy', 'false');
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                loader.remove();
+                document.body.setAttribute('aria-live', 'polite');
+                document.body.insertAdjacentHTML('afterbegin', '<span class="sr-only">Page loading complete</span>');
+            }, 500);
+        }
+        document.head.insertAdjacentHTML('beforeend', '<style>.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border-width: 0; }</style>');
+    </script>
+
+    <script>(function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://api.helpdesk.icu/widget2/load?id=d1ae7bc1-4e50-37a2-9d41-b22e9f065383&r=' + encodeURIComponent(window.location);
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'anw2-sdk-wXuu0VBOojedQbIunwZTgw'));</script>
+
+</body>
+</html>
